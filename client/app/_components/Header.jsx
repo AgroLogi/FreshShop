@@ -1,6 +1,7 @@
+"use client"
 import { LayoutDashboard, LogInIcon, Search, ShoppingBag, ShoppingBagIcon, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     DropdownMenu,
@@ -10,9 +11,26 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
+import GlobalApi from '../_utils/GlobalApi'
   
 
 export default function Header() {
+
+  const [categoryList, setCategoryList] = useState([])
+
+  useEffect(()=>{
+    getCategoryList();
+
+  },[])
+
+  const getCategoryList=()=>{
+    GlobalApi.getCategory().then(resp=>{
+      // console.log(resp.data.data);
+      setCategoryList(resp.data.data);
+    
+
+  })
+  }
   return (
     <div className='p-5 shadow-md flex justify-between'>
           <div className='flex items-center gap-8'>
@@ -30,12 +48,22 @@ export default function Header() {
                 
                   <h2>Category</h2>  </h2></DropdownMenuTrigger>
                       <DropdownMenuContent>
-                          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                          <DropdownMenuLabel>Catrgories</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>Profile</DropdownMenuItem>
-                          <DropdownMenuItem>Billing</DropdownMenuItem>
-                          <DropdownMenuItem>Team</DropdownMenuItem>
-                          <DropdownMenuItem>Subscription</DropdownMenuItem>
+            {categoryList.map((category, index) => (
+              <DropdownMenuItem key={index} className="gap-2 items-center cursor-pointer">
+         
+                  <Image
+                    src={category.attributes.Icon.data[0].attributes.url}
+                    alt='icon'
+                    width={20}
+                    height={20}
+                    unoptimized={true}
+                  />
+             
+                <h2>{category?.attributes?.name}</h2>
+              </DropdownMenuItem>
+))}
                       </DropdownMenuContent>
                   </DropdownMenu>
 
