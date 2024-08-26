@@ -19,7 +19,7 @@ export default function Slider({ sliderList }) {
             // // Log the image URL to the console
             // console.log(slider);
 
-            return (
+            return (    
               <CarouselItem key={index}>
                 <Image
                   src={slider.attributes?.image?.data[0].attributes?.url}

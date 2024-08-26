@@ -23,6 +23,12 @@
       ],
       "type": "media",
       "multiple": true
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "mappedBy": "categories"
     }
   }
 }
