@@ -1,20 +1,17 @@
-import { Image } from 'lucide-react'
-import React from 'react'
+"use client"
+import Image from 'next/image'
+import React from 'react';
+import ProductItem from './ProductItem';
 
 export default function AllProductList({ productList }) {
   return (
-    <div>
-      <h1>Product List</h1>
-      {productList.map((product, index) => (
-        <div key={index}>
-          <Image 
-            src={product.attributes.images.data[0].attributes.formats.thumbnail.url} 
-            width={60} 
-            height={60} 
-            alt={product.attributes.name || 'Product Image'}
-          />
-        </div>
-      ))}
-    </div>
-  )
+    <div className='mt-6'>
+      <h1 className='text-primary font-bold text-2xl'>Product List</h1>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4 items-center rounded-md border-black'>
+        {productList.map((product, index)=> index<8&&(
+         <ProductItem product={product}/>
+        ))}
+      </div>
+      </div>
+  );
 }
