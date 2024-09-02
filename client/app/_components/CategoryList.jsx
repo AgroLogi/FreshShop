@@ -14,6 +14,7 @@ export default function CategoryList({categoryList}) {
             
     
             <Image src={category.attributes.Icon.data[0].attributes.url}
+             unoptimized={true}
              width={60} height={60} alt='icon'
              className='group-hover:scale-125 transition-all ease-in-out'
              ></Image>

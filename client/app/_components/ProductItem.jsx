@@ -3,6 +3,17 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React from 'react'
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import ProductItemDetails from './ProductItemDetails'
+
+
 export default function ProductItem({product}) {
   return (
     <div className='p-2 md:p-6 flex flex-col items-center 
@@ -20,8 +31,19 @@ export default function ProductItem({product}) {
                 <h2 className='font-bold line-through text-slate-400'>${product.attributes.price}</h2>
                 
                 </div>
-                <Button className="">Add to Cart</Button>
-               
+                
+                <Dialog>
+                     <DialogTrigger><Button className="">Add to Cart</Button></DialogTrigger>
+                      <DialogContent>
+                      <DialogHeader>
+                      {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
+                       <DialogDescription>
+                         <ProductItemDetails product={product}/>
+                      </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                 </Dialog>
+
 
             </div>
   )

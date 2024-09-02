@@ -58,7 +58,7 @@ export default function Header() {
                     alt='icon'
                     width={20}
                     height={20}
-                    unoptimized={true}
+            
                   />
              
                 <h2>{category?.attributes?.name}</h2>
