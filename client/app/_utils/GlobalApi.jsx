@@ -21,10 +21,15 @@ const getAllProducts=()=>axiosClient.get('/products?populate=*').then(res=>{
 const deliveryBanner=()=>axiosClient.get('/banners?populate=*').then(res=>{
     return res.data.data;
 })
+
+const getProductsByCategory=(category)=>axiosClient.get('/products?filters[categories][name][$in]='+category+'&populate=*').then(res=>{
+    return res.data.data;
+})
 export default {
     getCategory,
     getCategoryList,
     getSliders,
     getAllProducts,
-    deliveryBanner
+    deliveryBanner,
+    getProductsByCategory
 }

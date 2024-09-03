@@ -3,6 +3,7 @@ import { LayoutDashboard, LogInIcon, Search, ShoppingBag, ShoppingBagIcon, Shopp
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,6 +13,7 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 import GlobalApi from '../_utils/GlobalApi'
+import Link from 'next/link'
   
 
 export default function Header() {
@@ -51,18 +53,21 @@ export default function Header() {
                           <DropdownMenuLabel>Catrgories</DropdownMenuLabel>
                           <DropdownMenuSeparator />
             {categoryList.map((category, index) => (
-              <DropdownMenuItem key={index} className="gap-2 items-center cursor-pointer">
+              <Link href={'/products_category/'+category.attributes.name}>
+              <DropdownMenuItem key={index} className="flex gap-2 items-center cursor-pointer">
          
                   <Image
                     src={category.attributes.Icon.data[0].attributes.url}
                     alt='icon'
                     width={20}
                     height={20}
+                    unoptimized={true}
             
                   />
              
                 <h2>{category?.attributes?.name}</h2>
               </DropdownMenuItem>
+              </Link> 
 ))}
                       </DropdownMenuContent>
                   </DropdownMenu>
