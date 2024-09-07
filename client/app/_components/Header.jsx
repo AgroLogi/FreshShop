@@ -1,7 +1,7 @@
 "use client"
 import { LayoutDashboard, LogInIcon, Search, ShoppingBag, ShoppingBagIcon, ShoppingCart, UserCircleIcon } from 'lucide-react'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 
@@ -16,14 +16,20 @@ import {
 import GlobalApi from '../_utils/GlobalApi'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { UpdateCart } from '../_context/UpdateCart'
 
 
 
 export default function Header() {
 
   const [categoryList, setCategoryList] = useState([])
-  const isLogin = sessionStorage.getItem("jwt");
-  const router = useRouter()
+  const isLogin= sessionStorage.getItem('jwt')?true:false;
+  const [totalCartItem, setTotalCartItem]=useState(0)
+  const Uid = JSON.parse(sessionStorage.getItem("user"));
+  const jwt = sessionStorage.getItem("jwt");
+  const router = useRouter();
+  const {updateCart, setUpdateCart}= useContext(UpdateCart)
+
 
  const Logout=()=>{
   sessionStorage.clear();
@@ -36,6 +42,10 @@ export default function Header() {
 
   }, [])
 
+  useEffect(()=>{
+    getCartItems();
+  }, [updateCart])
+
   const getCategoryList = () => {
     GlobalApi.getCategory().then(resp => {
       // console.log(resp.data.data);
@@ -43,6 +53,13 @@ export default function Header() {
 
 
     })
+  }
+
+//use to get total cart items
+  const getCartItems=async()=>{
+    const cartItemList=await GlobalApi.getTotalCartItems(Uid.id,jwt)
+    console.log(cartItemList)
+    setTotalCartItem(cartItemList.length)
   }
   return (
     <div className='p-5 shadow-md flex justify-between '>
@@ -91,7 +108,7 @@ export default function Header() {
 
       </div>
       <div className='flex items-center gap-4'>
-        <h2 className='flex gap-2'><ShoppingBag></ShoppingBag>0</h2>
+        <h2 className='flex gap-2'><ShoppingBag></ShoppingBag><span className='bg-green-500 text-white rounded-full '>{totalCartItem}</span></h2>
         {!isLogin?<Link href={'/sign-in'}><Button className='bg-primary'>Login</Button></Link>:
        
         <DropdownMenu>

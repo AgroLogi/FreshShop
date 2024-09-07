@@ -36,6 +36,24 @@ const Login=(email, password)=>axiosClient.post('/auth/local',{
     password:password
 })
 
+
+const addToCart=(data,jwt)=>axiosClient.post('/user-carts',data,{
+    headers:{
+        Authorization:'Bearer '+jwt
+    }
+})
+
+const getTotalCartItems=(Uid, jwt)=>axiosClient.get('/user-carts?filters[Uid][$eq]='+Uid+'&populate=*',{
+    headers:{
+        Authorization:'Bearer '+jwt
+    }
+}).then(res=>{
+    return res.data.data;
+})
+   
+
+
+
 export default {
     getCategory,
     getCategoryList,
@@ -44,5 +62,7 @@ export default {
     deliveryBanner,
     getProductsByCategory,
     registerUser,
-    Login
+    Login,
+    addToCart,
+    getTotalCartItems
 }
