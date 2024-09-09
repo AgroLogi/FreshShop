@@ -57,7 +57,7 @@ export default function CheckoutPage() {
 
     // Create the payload with form data
     const payload = {
-      data: {
+      data:{
         totalOrderAmount: calculateTotalAmount(),
         name: name,
         email: email,
@@ -74,16 +74,20 @@ export default function CheckoutPage() {
     };
 
     console.log("Payload:", payload); // Debug the payload
+    GlobalApi.createOrder(payload, jwt).then(res=>{
+        console.log(res)
+        toast("Order created successfully");
 
-    try {
-      const res = await GlobalApi.createOrder(payload, jwt);
-      console.log("Response:", res);
-      toast("Order created successfully");
-      router.push('/order-confirmation');
-    } catch (error) {
-      console.error("Error creating order:", error);
-      toast.error("Failed to create order");
-    }
+    })
+    // try {
+    //   const res = await GlobalApi.createOrder(payload, jwt);
+    //   console.log("Response:", res);
+    //   toast("Order created successfully");
+    //   router.push('/order-confirmation');
+    // } catch (error) {
+    //   console.error("Error creating order:", error);
+    //   toast.error("Failed to create order");
+    // }
   };
 
   return (
