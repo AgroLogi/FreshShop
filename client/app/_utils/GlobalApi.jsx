@@ -43,14 +43,44 @@ const addToCart=(data,jwt)=>axiosClient.post('/user-carts',data,{
     }
 })
 
-const getTotalCartItems=(Uid, jwt)=>axiosClient.get('/user-carts?filters[Uid][$eq]='+Uid+'&populate=*',{
+const getTotalCartItems=(Uid, jwt)=>axiosClient.get('/user-carts?filters[Uid][$eq]='+Uid+'&[populate][products][populate][images][populate][0]=url',{
     headers:{
         Authorization:'Bearer '+jwt
     }
 }).then(res=>{
-    return res.data.data;
+    const data=res.data.data;
+    const cartItemsList=data.map((item, index)=>(
+        {
+            name:item.attributes.products?.data[0].attributes.name,
+            quantity:item.attributes.quantity,
+            amount:item.attributes.amount,
+            image:item.attributes.products?.data[0].attributes.images?.data[0].attributes.url,
+            actualPrice:item.attributes.products?.data[0].attributes.SellingPrice,
+            id:item.id,
+            product:item.attributes.products?.data[0].id
+
+        }
+    ))
+    return cartItemsList;
 })
    
+
+const deleteCartItem=(id, jwt)=>axiosClient.delete('/user-carts/'+id, 
+{
+    headers:{
+        Authorization:'Bearer '+jwt
+}
+
+})
+
+
+const createOrder=(data,jwt)=>axiosClient.post("/orders",data,{
+    headers:{
+        Authorization:'Bearer '+jwt
+    }
+})
+
+ 
 
 
 
@@ -64,5 +94,7 @@ export default {
     registerUser,
     Login,
     addToCart,
-    getTotalCartItems
+    getTotalCartItems,
+    deleteCartItem,
+    createOrder
 }

@@ -18,18 +18,29 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { UpdateCart } from '../_context/UpdateCart'
 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import CartItemList from './CartItemList'
+import { toast } from 'sonner'
 
 
 export default function Header() {
 
   const [categoryList, setCategoryList] = useState([])
-  const isLogin= sessionStorage.getItem('jwt')?true:false;
+  // const isLogin= sessionStorage.getItem('jwt')?true:false;
   const [totalCartItem, setTotalCartItem]=useState(0)
   const Uid = JSON.parse(sessionStorage.getItem("user"));
   const jwt = sessionStorage.getItem("jwt");
   const router = useRouter();
   const {updateCart, setUpdateCart}= useContext(UpdateCart)
-
+  const [cartItemList, setCartItemList]= useState([])
 
  const Logout=()=>{
   sessionStorage.clear();
@@ -55,11 +66,33 @@ export default function Header() {
     })
   }
 
+  const [subTotal, setSubTotal] = useState(0);
+
+  useEffect(() => {
+      let total = 0;
+      cartItemList.forEach(element => {
+          total += element.amount; // Calculate total amount for the cart items
+      });
+      setSubTotal(total); // Update the subtotal
+  }, [cartItemList]); // Recalculate subtotal whenever cart items change
+
+
 //use to get total cart items
   const getCartItems=async()=>{
-    const cartItemList=await GlobalApi.getTotalCartItems(Uid.id,jwt)
-    console.log(cartItemList)
-    setTotalCartItem(cartItemList.length)
+    if (!Uid) return; // Return early if Uid is null or undefined
+    const cartItemsList=await GlobalApi.getTotalCartItems(Uid.id,jwt)
+    console.log(cartItemsList)
+    setTotalCartItem(cartItemsList.length)
+    setCartItemList(cartItemsList)
+  }
+
+
+  const onDeleteCartItem=(id)=>{
+    GlobalApi.deleteCartItem(id, jwt).then(res=>{
+      toast("Item removed from Your cart");
+      getCartItems();
+
+    })
   }
   return (
     <div className='p-5 shadow-md flex justify-between '>
@@ -108,8 +141,44 @@ export default function Header() {
 
       </div>
       <div className='flex items-center gap-4'>
-        <h2 className='flex gap-2'><ShoppingBag></ShoppingBag><span className='bg-green-500 text-white rounded-full '>{totalCartItem}</span></h2>
-        {!isLogin?<Link href={'/sign-in'}><Button className='bg-primary'>Login</Button></Link>:
+        
+        <Sheet>
+          <SheetTrigger>
+            <h2 className='flex gap-1 items-center'>
+              <ShoppingBag></ShoppingBag>
+              <span className='bg-green-500 text-white border 
+                    rounded-xl p-2 '>{totalCartItem}
+              </span>
+
+            </h2>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>My Cart</SheetTitle>
+              <SheetDescription>
+                <CartItemList cartItemList={cartItemList}
+                onDeleteCartItem={onDeleteCartItem}
+                />
+                
+              </SheetDescription>
+            </SheetHeader>
+            <SheetClose aschild>
+                {/* Display the subtotal and button below the scrollable list */}
+            <div className='absolute flex flex-col bottom-4 w-[90%] mt-4'>
+                <h2 className='text-lg font-bold flex justify-between'>Subtotal: <span>&#8377;{subTotal}</span></h2>
+                <Button onClick={()=>router.push(jwt?'/checkout':'/sign-in')}>Checkout</Button>
+            </div>
+            </SheetClose>
+          </SheetContent>
+        </Sheet>
+
+
+
+
+
+
+
+        {!jwt?<Link href={'/sign-in'}><Button className='bg-primary'>Login</Button></Link>:
        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
