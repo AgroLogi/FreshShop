@@ -27,8 +27,8 @@ export default function ProductItem({product}) {
                 className='h-[200px] w-[200px] object-contain'
                 />
                 <h2 className='font-bold text-lg'>{product.attributes.name}</h2>
-                <div className='flex gap-3 items-center mt-4'><h2 className='font-bold'>${product.attributes.SellingPrice}</h2>
-                <h2 className='font-bold line-through text-slate-400'>${product.attributes.price}</h2>
+                <div className='flex gap-3 items-center mt-4'><h2 className='font-bold'>&#8377;{product.attributes.SellingPrice}</h2>
+                <h2 className='font-bold line-through text-slate-400'>&#8377;{product.attributes.price}</h2>
                 
                 </div>
                 

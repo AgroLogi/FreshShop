@@ -68,8 +68,8 @@ export default function ProductItemDetails({product}) {
      <h2 className='font-bold text-3xl'>{product.attributes.name}</h2>
      <h2 className='font-sm text-gray-500'>{product.attributes.description}</h2>
      <div className='flex gap-3'>
-      <h2 className='font-bold text-2xl'>${product.attributes.SellingPrice}</h2>
-      <h2 className='font-bold text-2xl line-through text-slate-400'>${product.attributes.price}</h2>
+      <h2 className='font-bold text-2xl'>&#8377;{product.attributes.SellingPrice}</h2>
+      <h2 className='font-bold text-2xl line-through text-slate-400'>&#8377;{product.attributes.price}</h2>
     </div>
 
     <div>
@@ -83,7 +83,7 @@ export default function ProductItemDetails({product}) {
       <h2>{quantity}</h2>
       <Button onClick={()=>setQuantity(quantity+1)}>+</Button>   
        </div>
-       <h2 className='font-medium text-sm'>= ${quantity*productTotalPrice}</h2>
+       <h2 className='font-medium text-sm'>= &#8377;{quantity*productTotalPrice}</h2>
        </div>
     
     <div >

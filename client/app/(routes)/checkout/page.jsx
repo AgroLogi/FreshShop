@@ -5,8 +5,8 @@ import GlobalApi from '@/app/_utils/GlobalApi';
 import { toast } from 'sonner';
 
 export default function CheckoutPage() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const jwt = sessionStorage.getItem("jwt");
+  const [user, setUser] = useState(null);
+  const [jwt, setJwt] = useState(null);
   const [totalCartItem, setTotalCartItem] = useState(0);
   const [cartItemList, setCartItemList] = useState([]);
   const router = useRouter();
@@ -20,18 +20,24 @@ export default function CheckoutPage() {
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
-    if (!jwt) {
+    // Access sessionStorage only on the client-side
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    const storedJwt = sessionStorage.getItem("jwt");
+
+    if (!storedJwt) {
       router.push("/sign-in");
     } else {
-      getCartItems();
+      setUser(storedUser);
+      setJwt(storedJwt);
+      getCartItems(storedUser, storedJwt);
     }
   }, []);
 
   // Fetch total cart items
-  const getCartItems = async () => {
-    if (!user) return; // Return early if user is null or undefined
+  const getCartItems = async (storedUser, storedJwt) => {
+    if (!storedUser) return; // Return early if user is null or undefined
     try {
-      const cartItemsList = await GlobalApi.getTotalCartItems(user.id, jwt);
+      const cartItemsList = await GlobalApi.getTotalCartItems(storedUser.id, storedJwt);
       setTotalCartItem(cartItemsList.length);
       setCartItemList(cartItemsList);
     } catch (error) {
@@ -55,9 +61,14 @@ export default function CheckoutPage() {
   const createOrder = async (e) => {
     e.preventDefault(); // Prevent form submission default behavior
 
+    if (!user) {
+      toast.error("User not found. Please sign in again.");
+      return;
+    }
+
     // Create the payload with form data
     const payload = {
-      data:{
+      data: {
         totalOrderAmount: calculateTotalAmount(),
         name: name,
         email: email,
@@ -74,20 +85,15 @@ export default function CheckoutPage() {
     };
 
     console.log("Payload:", payload); // Debug the payload
-    GlobalApi.createOrder(payload, jwt).then(res=>{
-        console.log(res)
-        toast("Order created successfully");
-
-    })
-    // try {
-    //   const res = await GlobalApi.createOrder(payload, jwt);
-    //   console.log("Response:", res);
-    //   toast("Order created successfully");
-    //   router.push('/order-confirmation');
-    // } catch (error) {
-    //   console.error("Error creating order:", error);
-    //   toast.error("Failed to create order");
-    // }
+    try {
+      const res = await GlobalApi.createOrder(payload, jwt);
+      console.log("Response:", res);
+      toast("Order created successfully");
+      router.push('/order-confirmation');
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error("Failed to create order");
+    }
   };
 
   return (
