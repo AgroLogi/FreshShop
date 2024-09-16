@@ -74,14 +74,13 @@ const deleteCartItem=(id, jwt)=>axiosClient.delete('/user-carts/'+id,
 })
 
 
-const createOrder=(data,jwt)=>axiosClient.post("/orders",data,{
+const createOrder=(data,jwt)=>axiosClient.post("/create-orders",data,{
     headers:{
         Authorization:'Bearer '+jwt
     }
 })
 
  
-
 
 
 export default {

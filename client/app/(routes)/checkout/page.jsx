@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import GlobalApi from '@/app/_utils/GlobalApi';
 import { toast } from 'sonner';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 export default function CheckoutPage() {
   const [user, setUser] = useState(null);
@@ -67,29 +68,38 @@ export default function CheckoutPage() {
     }
 
     // Create the payload with form data
-    const payload = {
+    const data = {
       data: {
-        totalOrderAmount: calculateTotalAmount(),
         name: name,
         email: email,
-        address: address,
         phone: phone,
         zip: zip,
+        address: address,
         userId: user.id,
         orderItemList: cartItemList.map(item => ({
           product: item.product, // Ensure the product ID or relevant identifier is sent
           quantity: item.quantity,
           amount: item.amount
-        }))
+        })),
+        totalOrderAmount: calculateTotalAmount()
+       
+        
+      
       }
     };
 
-    console.log("Payload:", payload); // Debug the payload
+    console.log("Payload:", data); // Debug the payload
     try {
-      const res = await GlobalApi.createOrder(payload, jwt);
-      console.log("Response:", res);
-      toast("Order created successfully");
-      router.push('/order-confirmation');
+      const res = await GlobalApi.createOrder(data,jwt);
+      console.log("Response:", res.data);
+       toast("Order created successfully");
+
+      cartItemList.forEach((item,index)=>{
+        GlobalApi.deleteCartItem(item.id).then(res=>{
+
+        })
+      })
+      router.replace('/orderConfirmation');
     } catch (error) {
       console.error("Error creating order:", error);
       toast.error("Failed to create order");
@@ -121,13 +131,13 @@ export default function CheckoutPage() {
             <label htmlFor="address" className="block text-gray-700 font-bold mb-2">Address</label>
             <textarea id="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={address} onChange={(e) => setAddress(e.target.value)} required />
           </div>
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 col-span-2" type="submit">
+          <button disabled={!(name&&address&&phone&&email&&zip)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 col-span-2" type="submit">
             Place Order
           </button>
         </form>
         <div className="mt-4">
           <div className="bg-gray-200 p-4 rounded-md">
-            <h2 className="text-gray-700 font-bold mb-2">Total Cart {totalCartItem}</h2>
+            <h2 className="text-gray-700 font-bold mb-2">Total Cart Items {totalCartItem}</h2>
             <div className="flex justify-between mb-2">
               <span className="text-gray-700">Subtotal:</span>
               <span className="text-gray-700 font-bold">&#8377;{subTotal}</span>

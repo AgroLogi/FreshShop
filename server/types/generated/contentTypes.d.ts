@@ -860,12 +860,12 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
-export interface ApiOrderOrder extends Schema.CollectionType {
-  collectionName: 'orders';
+export interface ApiCreateOrderCreateOrder extends Schema.CollectionType {
+  collectionName: 'create_orders';
   info: {
-    singularName: 'order';
-    pluralName: 'orders';
-    displayName: 'Order';
+    singularName: 'create-order';
+    pluralName: 'create-orders';
+    displayName: 'CreateOrder';
     description: '';
   };
   options: {
@@ -873,24 +873,24 @@ export interface ApiOrderOrder extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    email: Attribute.Text;
-    phone: Attribute.Integer;
-    zip: Attribute.Integer;
+    email: Attribute.String;
     address: Attribute.Text;
-    userId: Attribute.Integer;
-    orderItemList: Attribute.Component<'order-item.ordered-item', true>;
+    phone: Attribute.BigInteger;
+    zip: Attribute.BigInteger;
     totalOrderAmount: Attribute.Decimal;
+    userId: Attribute.BigInteger;
+    orderItemList: Attribute.Component<'order-item.ordered-item', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::order.order',
+      'api::create-order.create-order',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::order.order',
+      'api::create-order.create-order',
       'oneToOne',
       'admin::user'
     > &
@@ -1040,7 +1040,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::banner.banner': ApiBannerBanner;
       'api::category.category': ApiCategoryCategory;
-      'api::order.order': ApiOrderOrder;
+      'api::create-order.create-order': ApiCreateOrderCreateOrder;
       'api::product.product': ApiProductProduct;
       'api::slider.slider': ApiSliderSlider;
       'api::user-cart.user-cart': ApiUserCartUserCart;

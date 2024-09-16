@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "orders",
+  "collectionName": "create_orders",
   "info": {
-    "singularName": "order",
-    "pluralName": "orders",
-    "displayName": "Order",
+    "singularName": "create-order",
+    "pluralName": "create-orders",
+    "displayName": "CreateOrder",
     "description": ""
   },
   "options": {
@@ -16,27 +16,27 @@
       "type": "string"
     },
     "email": {
-      "type": "text"
-    },
-    "phone": {
-      "type": "integer"
-    },
-    "zip": {
-      "type": "integer"
+      "type": "string"
     },
     "address": {
       "type": "text"
     },
+    "phone": {
+      "type": "biginteger"
+    },
+    "zip": {
+      "type": "biginteger"
+    },
+    "totalOrderAmount": {
+      "type": "decimal"
+    },
     "userId": {
-      "type": "integer"
+      "type": "biginteger"
     },
     "orderItemList": {
       "type": "component",
       "repeatable": true,
       "component": "order-item.ordered-item"
-    },
-    "totalOrderAmount": {
-      "type": "decimal"
     }
   }
 }
