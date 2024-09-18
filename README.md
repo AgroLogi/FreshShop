@@ -18,54 +18,65 @@ FreshShop is an e-commerce store built using **Next.js** for the frontend, **Str
 
 ---
 
-## Project Structure
+## Components and Functionalities
 
-The project follows a modular structure, organizing reusable components, context, API utilities, and page routes into separate folders. Below is a breakdown of the key directories and files:
+### 1. Axios Client Setup (`_utils/GlobalApi.js`)
 
-### 1. Components (`_components/`)
+This file manages all the API interactions between the frontend and the Strapi backend. It creates an Axios instance for making HTTP requests to the backend. Here’s a breakdown of each function:
 
-- **AllProductList.jsx**: Displays all products available in the store.
-- **CartItemList.jsx**: Handles displaying items in the cart, including their quantity, price, and image.
-- **CategoryList.jsx**: Displays categories for filtering products.
-- **DeliveryBanner.jsx**: A promotional banner used to display delivery offers or announcements.
-- **Footer.jsx**: The footer section of the store.
-- **Header.jsx**: The header section, including the navigation bar and search bar.
-- **ProductItem.jsx**: A component that displays individual product details.
-- **ProductItemDetails.jsx**: Displays detailed information for a single product.
-- **Slider.jsx**: A slider component for displaying banners or promotional content on the home page.
-
-### 2. Context (`_context/`)
-
-- **UpdateCart.jsx**: Manages the cart state globally, including adding, updating, and removing products from the cart. This uses the Context API to share state across components.
-
-### 3. API Utilities (`_utils/GlobalApi.js`)
-
-This file manages all the API interactions between the frontend and the Strapi backend. It creates an Axios instance for making HTTP requests to the backend.
-
-- **`getCategory`**: Fetches all categories from Strapi CMS with populated data.
-- **`getCategoryList`**: Returns a structured list of categories.
+- **`getCategory`**: Fetches all categories from Strapi CMS with populated data (images, names).
+- **`getCategoryList`**: Returns a list of categories in a structured format.
 - **`getSliders`**: Fetches slider/banner data for the home page.
-- **`getAllProducts`**: Retrieves a list of products with essential attributes like images, prices, and categories.
-- **`getProductsByCategory`**: Fetches products based on their category.
-- **`registerUser`**: Handles user registration using Strapi's authentication.
-- **`Login`**: Authenticates the user and returns a JWT token.
-- **`addToCart`**: Adds a product to the cart.
-- **`getTotalCartItems`**: Retrieves all cart items for a particular user.
-- **`deleteCartItem`**: Deletes a cart item.
-- **`createOrder`**: Creates an order and saves the data in Strapi.
+- **`getAllProducts`**: Retrieves a list of products, populating essential product attributes like images, prices, and categories.
+- **`getProductsByCategory`**: Fetches products by category.
+- **`registerUser`**: Handles user registration using Strapi’s built-in authentication system.
+- **`Login`**: Authenticates the user and returns a JWT for protected routes.
+- **`addToCart`**: Adds a product to the user's cart.
+- **`getTotalCartItems`**: Fetches the total cart items for the authenticated user.
+- **`deleteCartItem`**: Deletes a specific item from the cart.
+- **`createOrder`**: Sends order data to Strapi and records the purchase details.
 
-### 4. Authentication Pages (`auth/`)
+### 2. Category and Product Pages (`/products_category/[name].jsx`)
 
-- **sign-in/page.jsx**: The user login page, which includes fields for the email and password and authenticates users using JWT.
-- **sign-up/page.jsx**: The user registration page, allowing new users to sign up.
+Each product page is dynamic and renders information based on the product ID. The page fetches data from Strapi using the `getAllProducts` or `getProductsByCategory` function from `GlobalApi.js`. Key product attributes like images, descriptions, and pricing are displayed, with a button for adding the item to the cart.
 
-### 5. Routes (`routes/`)
+### 3. Cart Management (`_components/CartItemList.jsx`)
 
-This folder contains the main routes of the store:
+Cart functionality is managed using the Context API. The cart stores the selected products, their quantity, and the total price. These values are dynamically updated as users add/remove products. The following actions are supported:
 
-- **checkout/page.jsx**: The checkout page where users enter their details (name, email, phone, address) and confirm their order.
-- **orderConfirmation/page.jsx**: Displays an order confirmation message with a green checkmark once the order has been successfully placed.
-- **products_category/[name].jsx**: A dynamic route that renders product listings filtered by category.
+- Add to Cart
+- Remove from Cart
+- Update Quantity
+
+### 4. Checkout Process (`routes/checkout/page.jsx`)
+
+The checkout process is user-friendly, capturing essential details such as name, email, phone number, shipping address, and zip code. Users can review their order before proceeding, and the total amount is calculated dynamically, including delivery fees.
+
+- **Order Creation:** The `createOrder` function in `GlobalApi.js` sends the order data to Strapi, including user details, cart items, and the total order amount.
+- **Confirmation:** After successful order creation, the user is redirected to the order confirmation page.
+
+### 5. Authentication (`auth/sign-in/page.jsx`)
+
+Authentication is handled via JWT tokens stored in the browser's `sessionStorage`. The `Login` function in `GlobalApi.js` verifies user credentials and retrieves a JWT, allowing users to access protected routes like checkout and order history.
+
+### 6. Responsive Design (Tailwind CSS)
+
+Tailwind CSS is utilized for designing responsive layouts, ensuring a consistent experience across devices. All major UI elements, such as buttons, forms, and grids, are styled using Tailwind’s utility-first classes.
+
+### 7. Order Confirmation (`route/OrderConfirmation/page.jsx`)
+
+This page is displayed once an order is successfully placed. It shows a green checkmark icon indicating success and confirms the order details, including the total amount and items purchased.
+
+---
+
+## Backend (Strapi CMS)
+
+The backend for FreshShop is managed using Strapi CMS. It handles:
+
+- **Product Management:** Admins can create, update, and delete product listings.
+- **User Management:** User registration, authentication, and permission handling.
+- **Order Management:** Stores order details, including user information and products purchased.
+- **Category and Slider Management:** Admins can manage product categories and promotional sliders.
 
 ---
 
