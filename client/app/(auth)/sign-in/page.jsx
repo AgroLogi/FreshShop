@@ -49,7 +49,7 @@ export default function SignIn() {
             onClick={onLoginAccount}
             disabled={!(email && password)}
           >
-            Create an Account
+            Login
           </Button>
           <p className='flex gap-2'>Don't have an Account
             <Link href="/sign-up" className='text-blue-600'>Click here to Create an Account</Link>
