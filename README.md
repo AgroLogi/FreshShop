@@ -90,6 +90,43 @@ The backend for FreshShop is managed using Strapi CMS. It handles:
 
 ---
 
+
+
+## References and Resources
+
+### Axios Client Setup (`_utils/GlobalApi.js`):
+- Documentation for Axios: [Axios GitHub Repository](https://github.com/axios/axios)
+- Strapi API Documentation: [Strapi API](https://docs.strapi.io/dev-docs/api/rest)
+
+### Category and Product Pages (`/products_category/[name].jsx`):
+- Dynamic Routes in Next.js: [Next.js Dynamic Routing](https://nextjs.org/docs/routing/dynamic-routes)
+- Fetching Data in Next.js: [Next.js Data Fetching](https://nextjs.org/docs/basic-features/data-fetching)
+
+### Cart Management (`_components/CartItemList.jsx`):
+- Context API for State Management: [React Context API](https://vercel.com/guides/react-context-state-management-nextjs)
+- React Hooks: [React Hooks Documentation](https://medium.com/@alisoneuropa/introduction-to-react-hooks-how-to-use-hooks-to-improve-your-code-in-next-js-fed3ef1641e6)
+
+### Checkout Process (`routes/checkout/page.jsx`):
+- Handling Forms in React: [React Forms](https://reactjs.org/docs/forms.html)
+- Axios Post Requests: [Axios Post](https://axios-http.com/docs/post_example)
+
+### Authentication (`auth/sign-in/page.jsx`):
+- JWT Authentication with Strapi: [Strapi Authentication](https://docs.strapi.io/dev-docs/plugins/users-permissions)
+- Handling Authentication in Next.js: [NextAuth.js](https://next-auth.js.org/)
+
+### Responsive Design (Tailwind CSS):
+- Tailwind CSS Documentation: [Tailwind CSS](https://tailwindcss.com/docs)
+- Responsive Design Best Practices: [Responsive Web Design](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design)
+
+### Order Confirmation (`route/OrderConfirmation/page.jsx`):
+- React Router: [React Router](https://nextjs.org/docs/pages/api-reference/functions/use-router)
+- Managing Order Data: [Strapi Relations](https://docs.strapi.io/dev-docs/plugins/users-permissions)
+
+### Backend (Strapi CMS):
+- Strapi CMS Documentation: [Strapi Docs](https://docs.strapi.io/)
+- Setting Up Roles and Permissions: [Strapi Permissions](https://docs.strapi.io/user-docs/latest/users-roles-permissions/configuring-administrator-roles.html)
+
+
 ## Installation
 
 1. **Clone the repository:**
