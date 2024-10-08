@@ -1,16 +1,22 @@
-module.exports = {
-    // Automatically clear mock calls and instances between every test
-    clearMocks: true,
-  
-    // A setup file that adds custom Jest matchers from jest-dom
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  
-    // Transform configuration for handling different file types
-    transform: {
-      '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
-    },
-  
-    // Supported file extensions for modules
-    moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
-  };
-  
+const nextJest = require('next/jest')
+ 
+/** @type {import('jest').Config} */
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+})
+ 
+// Add any custom config to be passed to Jest
+const config = {
+  coverageProvider: 'v8',
+  testEnvironment: 'jsdom',
+  // Add more setup options before each test is run
+  setupFilesAfterEnv: ['./jest.setup.js'],
+  moduleNameMapper: {
+    // ...
+    '^@/components/(.*)$': './components/$1',
+  }
+}
+ 
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+module.exports = createJestConfig(config)

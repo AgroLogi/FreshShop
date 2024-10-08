@@ -1,0 +1,42 @@
+name: Run Selenium Tests
+
+on: [push, pull_request]
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # You can specify the version you need
+
+    - name: Install chrome driver
+      run: |
+        sudo apt update 
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install ./google-chrome-stable_current_amd64.deb -y
+        sudo apt -f install
+        google-chrome --version
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install selenium webdriver-manager
+       
+
+    - name: Run Selenium tests
+      run: |
+        # Wait for the Selenium service to be ready
+        sleep 15
+        python selenium_tests/signup_test.py
