@@ -7,52 +7,47 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-def signup_to_fresh_shop(driver, username, email, password):
+def login_to_fresh_shop(driver, email, password):
     try:
-        print("Test 1: Fresh Shop (Checking Signup function....)")
+        print("Test 1: Fresh Shop (Checking Login function....)")
 
-        # Open the signup page of Fresh Shop
-        driver.get("https://fresh-shop-client.vercel.app/sign-up")
+        # Open the login page of Fresh Shop
+        driver.get("https://fresh-shop-client.vercel.app/sign-in")
 
         # Wait for the page to load
         time.sleep(3)
 
-        # Find the username field and enter the username
-        username_field = driver.find_element(By.CSS_SELECTOR, "input[placeholder='Username']")
-        username_field.send_keys(username)
-        print("Step 1: Entered Username")
-
         # Find the email field and enter the email
         email_field = driver.find_element(By.CSS_SELECTOR, "input[placeholder='Email']")
         email_field.send_keys(email)
-        print("Step 2: Entered Email")
+        print("Step 1: Entered Email")
 
         # Find the password field and enter the password
         password_field = driver.find_element(By.CSS_SELECTOR, "input[placeholder='password']")
         password_field.send_keys(password)
-        print("Step 3: Entered Password")
+        print("Step 2: Entered Password")
 
-        # Find the 'Create an Account' button using XPath and click it
-        signup_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Create an Account')]")
-        signup_button.click()
-        print("Step 4: Clicked Create Account Button")
+        # Find the 'Login' button and click it using XPath
+        login_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Login')]")
+        login_button.click()
+        print("Step 3: Clicked Login Button")
 
-        # Wait for the URL to change after clicking the signup button
-        WebDriverWait(driver, 10).until(EC.url_changes("https://fresh-shop-client.vercel.app/sign-up"))
+        # Wait for the URL to change after clicking the login button
+        WebDriverWait(driver, 10).until(EC.url_changes("https://fresh-shop-client.vercel.app/sign-in"))
 
         # Check if the redirected URL is the home page ("/")
         if driver.current_url == "https://fresh-shop-client.vercel.app/":
-            print("Signup successful in Fresh Shop. Redirected to the home page.")
+            print("Login successful in Fresh Shop. Redirected to the home page.")
             return True
         else:
-            print(f"Signup failed. Redirected to {driver.current_url} instead of the home page.")
+            print(f"Login failed. Redirected to {driver.current_url} instead of the home page.")
             return False
 
     except TimeoutException:
-        print("Signup failed. Timeout while waiting for the page to redirect.")
+        print("Login failed. Timeout while waiting for the page to redirect.")
         return False
     except NoSuchElementException:
-        print("Signup failed or required elements not found.")
+        print("Login failed or required elements not found.")
         return False
 
 # Setup Chrome options
@@ -66,16 +61,15 @@ chrome_options.add_argument("--window-size=1920,1080")
 
 # Setup WebDriver with the correct ChromeDriver path
 service = Service(ChromeDriverManager().install())
-
 # service = Service("C:\Program Files\Google\Chrome\Application\chromedriver.exe")
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 try:
-    if signup_to_fresh_shop(driver, "testUser", "test@example.com", "demo@123"):
-        # Continue with other actions after successful signup
+    if login_to_fresh_shop(driver, "test@example.com", "demo@123"):
+        # Continue with other actions after successful login
         pass
     else:
-        print("Exiting due to signup failure.")
+        print("Exiting due to login failure.")
 
 finally:
     # Close the browser
