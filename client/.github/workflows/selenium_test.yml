@@ -11,7 +11,6 @@ jobs:
         image: selenium/standalone-chrome
         ports:
           - 4444:4444
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
