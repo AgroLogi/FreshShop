@@ -2,7 +2,7 @@
 import { LayoutDashboard, Search, ShoppingBag, UserCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,

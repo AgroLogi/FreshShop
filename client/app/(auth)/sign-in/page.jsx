@@ -22,7 +22,7 @@ export default function SignIn() {
     }
   })
 
-  const onLoginAccount=()=>{
+  const onLoginAccount=()=>{  
     GlobalApi.Login(email,password).then(res=>{
       console.log(res.data.user)
       console.log(res.data.jwt)

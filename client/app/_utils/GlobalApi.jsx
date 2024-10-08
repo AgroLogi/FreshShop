@@ -8,7 +8,6 @@ const getCategory=()=>axiosClient.get('/categories?populate=*')
 
 const getCategoryList=()=>axiosClient.get('/categories?populate=*').then(res=>{
     return res.data.data;
-    
 })
 
 const getSliders=()=>axiosClient.get('/sliders?populate=*').then(res=>{
