@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager  # Import ChromeDriverManager
 import time
 
 def signup_to_fresh_shop(driver, username, email, password):
@@ -64,10 +65,8 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1920,1080")
 
-# Setup WebDriver with the correct ChromeDriver path
+# Setup WebDriver with ChromeDriverManager
 service = Service(ChromeDriverManager().install())
-
-# service = Service("C:\Program Files\Google\Chrome\Application\chromedriver.exe")
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 try:
