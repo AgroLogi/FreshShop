@@ -159,9 +159,11 @@ The backend for FreshShop is managed using Strapi CMS. It handles:
    ```bash
    cd server
    npm run build
-   npm run dev
+   npm start
   
-  **Access the Strapi backend at http://localhost:1337 for admin access.**
+  **Access the Strapi backend at http://localhost:1337/admin for admin access.**
+  *Modify Some Accesslevels in Users & Permissions plugin under settings section* 
+
 
 5. **Install dependencies for frontend:**
    ```bash
