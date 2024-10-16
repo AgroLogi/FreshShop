@@ -18,6 +18,16 @@ FreshShop is an e-commerce store built using **Next.js** for the frontend, **Str
 
 ---
 
+## Introduction Video
+
+Check out the [FreshShop Introduction Video](https://youtu.be/_e2QCSF6oPck) to get an overview of the project and its features.
+
+---
+
+## Installation Video
+
+For a step-by-step guide on how to install FreshShop on your local machine using VS Code, watch the [Installation Video](https://youtu.be/k8QwLDUbpb8).
+
 ## Components and Functionalities
 
 ### 1. Axios Client Setup (`_utils/GlobalApi.js`)
