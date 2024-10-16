@@ -6,7 +6,6 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager  # Import ChromeDriverManager
-
 import time
 
 def login_to_fresh_shop(driver, email, password):
@@ -52,51 +51,53 @@ def login_to_fresh_shop(driver, email, password):
         print("Login failed or required elements not found.")
         return False
 
-def click_shopping_bag_and_checkout(driver):
+def fill_checkout_form(driver):
     try:
-       # Wait for the element with text "12" to be clickable
-        element = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//span[contains(@class, 'bg-green-500') and contains(text(), '12')]"))
-        )
+        # Wait for the checkout page to load
+        time.sleep(3)
 
-        # Click on the element
-        element.click()
-        print("Clicked on element with text '12'")
+        # Find the name field and enter a dummy name
+        name_field = driver.find_element(By.CSS_SELECTOR, "input[id='name']")
+        name_field.send_keys("John Doe")
+        print("Step 1: Entered Name")
 
-        # Wait for the Checkout button to be visible and clickable
-        checkout_button_element = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Checkout')]"))
-        )
+        # Find the email field and enter a dummy email
+        email_field = driver.find_element(By.CSS_SELECTOR, "input[id='email']")
+        email_field.send_keys("john.doe@example.com")
+        print("Step 2: Entered Email")
 
-        # Click on the Checkout button
-        checkout_button_element.click()
-        print("Clicked on Checkout")
+        # Find the phone field and enter a dummy phone number
+        phone_field = driver.find_element(By.CSS_SELECTOR, "input[id='phone']")
+        phone_field.send_keys("1234567890")
+        print("Step 3: Entered Phone")
 
-        time.sleep(5)
+        # Find the zip field and enter a dummy zip code
+        zip_field = driver.find_element(By.CSS_SELECTOR, "input[id='zip']")
+        zip_field.send_keys("12345")
+        print("Step 4: Entered Zip")
 
-        # Wait for the URL to change to the checkout page
-        WebDriverWait(driver, 20).until(
-            EC.url_changes("https://fresh-shop-client.vercel.app/checkout")
-        )
+        # Find the address field and enter a dummy address
+        address_field = driver.find_element(By.CSS_SELECTOR, "textarea[id='address']")
+        address_field.send_keys("123 Main St, Anytown, USA")
+        print("Step 5: Entered Address")
 
-        # Check if the URL has changed to the checkout page
-        if driver.current_url == "https://fresh-shop-client.vercel.app/checkout":
-            print("Successfully navigated to the checkout page.")
-        else:
-            print(f"Failed to navigate to checkout. Current URL: {driver.current_url}")
+        # Find the 'Place Order' button and click it
+        place_order_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        place_order_button.click()
+        print("Step 6: Clicked Place Order Button")
 
     except TimeoutException:
-        print("Failed to click on ShoppingBag or Checkout. Timeout while waiting for the element to be clickable.")
+        print("Failed to fill checkout form. Timeout while waiting for the elements to be clickable.")
     except NoSuchElementException:
-        print("Failed to click on ShoppingBag or Checkout. Required elements not found.")
+        print("Failed to fill checkout form. Required elements not found.")
 
 # Setup Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--start-maximized")
-chrome_options.add_argument("--headless")  # Run in headless mode
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--disable-gpu")
+# chrome_options.add_argument("--headless")  # Run in headless mode
+# chrome_options.add_argument("--no-sandbox")
+# chrome_options.add_argument("--disable-dev-shm-usage")
+# chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1920,1080")
 
 # Setup WebDriver with the correct ChromeDriver path
@@ -105,8 +106,11 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 
 try:
     if login_to_fresh_shop(driver, "test@example.com", "Demo@123"):
-        # Continue with other actions after successful login
-        click_shopping_bag_and_checkout(driver)
+        # Visit the checkout URL
+        driver.get("https://fresh-shop-client.vercel.app/checkout")
+
+        # Fill the checkout form
+        fill_checkout_form(driver)
     else:
         print("Exiting due to login failure.")
 

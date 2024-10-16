@@ -70,7 +70,7 @@ service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 try:
-    if signup_to_fresh_shop(driver, "testUser", "test@example.com", "demo@123"):
+    if signup_to_fresh_shop(driver, "testUser", "test@example.com", "Demo@123"):
         # Continue with other actions after successful signup
         pass
     else:

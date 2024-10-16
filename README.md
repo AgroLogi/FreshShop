@@ -154,6 +154,11 @@ The backend for FreshShop is managed using Strapi CMS. It handles:
      CLOUDINARY_KEY = xxxx
      CLOUDINARY_SECRET = xxxxx
 
+***Modify Some Access levels in Users & Permissions plugin under settings section:***
+Modify Some Access levels in Users & Permissions plugin under settings section 
+Click on settings, then roles, then click on public, now click on banners and select find and find one, then click on category select same permissions find and findOne, then product find and findOne, then slider find and findOne, then save it and go back.
+Now go to Authenticated Users give the same permissions like public users except few now click on user cart, select all Then click on create order, select all, then click on users permissions scroll little bit under user section, select all. That's it you are done with permission levels, now its time to create some categories, products and promotional banners for your store, you can just do it in new minutes click on content-manager, firstly create some sliders in 1000 X 400 aspect ratio then create some categories , then products once you done with it, move towards frontend part.
+
    
 4. **Install dependencies for backend:**
    ```bash
