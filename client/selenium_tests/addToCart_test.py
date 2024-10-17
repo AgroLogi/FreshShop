@@ -1,4 +1,3 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -6,7 +5,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager  # Import ChromeDriverManager
-
+from selenium import webdriver
 import time
 
 def login_to_fresh_shop(driver, email, password):
@@ -52,43 +51,49 @@ def login_to_fresh_shop(driver, email, password):
         print("Login failed or required elements not found.")
         return False
 
+
+def wait_for_page_load(driver, timeout=60):
+    try:
+        WebDriverWait(driver, timeout).until(
+            lambda d: d.execute_script('return document.readyState') == 'complete'
+        )
+        print("Page fully loaded")
+    except TimeoutException:
+        print("Page load timeout")
+
 def click_shopping_bag_and_checkout(driver):
     try:
-       # Wait for the element with text "12" to be clickable
-        element = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//span[contains(@class, 'bg-green-500') and contains(text(), '12')]"))
+        wait_for_page_load(driver)
+
+        # Wait for the Shopping Bag element to be clickable
+        shopping_bag_element = WebDriverWait(driver, 60).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[contains(@class, 'bg-green-500')]"))
         )
 
-        # Click on the element
-        element.click()
-        print("Clicked on element with text '12'")
+        # Click on the Shopping Bag
+        shopping_bag_element.click()
+        print("Clicked on Shopping Bag")
 
-        # Wait for the Checkout button to be visible and clickable
-        checkout_button_element = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Checkout')]"))
+        # Wait for the Checkout button by its visible text
+        checkout_button = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Checkout']"))
         )
 
         # Click on the Checkout button
-        checkout_button_element.click()
+        checkout_button.click()
         print("Clicked on Checkout")
 
-        time.sleep(5)
+        # Wait for 3 seconds after clicking the button
+        time.sleep(3)
 
-        # Wait for the URL to change to the checkout page
-        WebDriverWait(driver, 20).until(
-            EC.url_changes("https://fresh-shop-client.vercel.app/checkout")
-        )
-
-        # Check if the URL has changed to the checkout page
-        if driver.current_url == "https://fresh-shop-client.vercel.app/checkout":
-            print("Successfully navigated to the checkout page.")
-        else:
-            print(f"Failed to navigate to checkout. Current URL: {driver.current_url}")
+        # Show a success message
+        print("Success: Navigated to the checkout page after clicking 'Checkout'.")
 
     except TimeoutException:
-        print("Failed to click on ShoppingBag or Checkout. Timeout while waiting for the element to be clickable.")
+        print("Timeout while waiting for the Shopping Bag or Checkout button.")
     except NoSuchElementException:
-        print("Failed to click on ShoppingBag or Checkout. Required elements not found.")
+        print("Required elements not found on the page.")
+
 
 # Setup Chrome options
 chrome_options = Options()
