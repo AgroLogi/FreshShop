@@ -18,6 +18,16 @@ FreshShop is an e-commerce store built using **Next.js** for the frontend, **Str
 
 ---
 
+## Introduction Video
+
+Check out the [FreshShop Introduction Video](https://youtu.be/_e2QCSF6oPck) to get an overview of the project and its features.
+
+---
+
+## Installation Video
+
+For a step-by-step guide on how to install FreshShop on your local machine using VS Code, watch the [Installation Video](https://youtu.be/k8QwLDUbpb8).
+
 ## Components and Functionalities
 
 ### 1. Axios Client Setup (`_utils/GlobalApi.js`)
@@ -153,6 +163,11 @@ The backend for FreshShop is managed using Strapi CMS. It handles:
      CLOUDINARY_NAME = xxxx
      CLOUDINARY_KEY = xxxx
      CLOUDINARY_SECRET = xxxxx
+
+***Modify Some Access levels in Users & Permissions plugin under settings section:***
+Modify Some Access levels in Users & Permissions plugin under settings section 
+Click on settings, then roles, then click on public, now click on banners and select find and find one, then click on category select same permissions find and findOne, then product find and findOne, then slider find and findOne, then save it and go back.
+Now go to Authenticated Users give the same permissions like public users except few now click on user cart, select all Then click on create order, select all, then click on users permissions scroll little bit under user section, select all. That's it you are done with permission levels, now its time to create some categories, products and promotional banners for your store, you can just do it in new minutes click on content-manager, firstly create some sliders in 1000 X 400 aspect ratio then create some categories , then products once you done with it, move towards frontend part.
 
    
 4. **Install dependencies for backend:**

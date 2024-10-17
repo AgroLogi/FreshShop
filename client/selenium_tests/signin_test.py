@@ -67,7 +67,7 @@ service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 try:
-    if login_to_fresh_shop(driver, "test@example.com", "demo@123"):
+    if login_to_fresh_shop(driver, "test@example.com", "Demo@123"):
         # Continue with other actions after successful login
         pass
     else:

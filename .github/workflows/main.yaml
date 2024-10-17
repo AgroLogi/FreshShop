@@ -39,3 +39,6 @@ jobs:
         # Wait for the Selenium service to be ready
         sleep 15
         python client/selenium_tests/signup_test.py
+        python client/selenium_tests/signin_test.py
+        python client/selenium_tests/addToCart_test.py
+        python client/selenium_tests/checkout_test.py
