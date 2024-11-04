@@ -33,7 +33,7 @@ export default function ProductItem({product}) {
                 </div>
                 
                 <Dialog>
-                     <DialogTrigger><Button className="">Add to Cart</Button></DialogTrigger>
+                     <DialogTrigger><Button data-testid="add-to-cart-button" className="">Add to Cart</Button></DialogTrigger>
                       <DialogContent>
                       <DialogHeader>
                       {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
