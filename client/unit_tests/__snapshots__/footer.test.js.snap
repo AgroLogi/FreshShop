@@ -13,6 +13,7 @@ exports[`Footer component renders correctly 1`] = `
           class="flex justify-center text-teal-600"
         >
           <img
+            alt="footer"
             data-nimg="1"
             decoding="async"
             height="100"
